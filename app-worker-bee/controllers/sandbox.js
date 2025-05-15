@@ -42,23 +42,3 @@ async function runUserCode(code, parameters) {
 module.exports = {
     runUserCode: runUserCode
 }
-
-// Example usage
-// (async () => {
-//     try {
-//         const result = await runUserCode(`
-//             const http = require("node:http")
-
-//             async function fetchSomething() {
-//             return "Hello from async sandbox!"
-//             }
-
-//             fetchSomething()
-//         `)
-
-//         console.log("Sandbox result:", result)
-
-//     } catch (err) {
-//         console.error("Sandbox error:", err.message)
-//     }
-// })()
