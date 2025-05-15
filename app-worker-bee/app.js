@@ -84,7 +84,7 @@ async function start() {
                     }
                 } catch (err) {
                     console.error("Sandbox error:", err.message)
-                    res.json({ error: "Server Error" })
+                    res.json({ error: "Sandbox Error: "+err.message })
                     res.status(500)
 
                 }
@@ -123,7 +123,7 @@ async function start() {
                     }
                 } catch (err) {
                     console.error("Sandbox error:", err.message)
-                    res.json({ error: "Server Error" })
+                    res.json({ error: "Sandbox Error: "+err.message })
                     res.status(500)
                 }
             } else {
