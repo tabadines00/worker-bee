@@ -47,11 +47,12 @@ async function start() {
         // Seed the Redis DB with test functions for now
         seedTestFunctions(redisClient)
         
-        // Testing a homepage
+        // Testing a homepage with function creation
         app.get("/", (req, res) => {
             res.sendFile('views/index.html', {root: __dirname })
         })
 
+        // Playground route for POST and GET request testing
         app.get("/playground", (req, res) => {
             res.sendFile('views/playground.html', {root: __dirname })
         })
