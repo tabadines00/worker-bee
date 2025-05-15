@@ -9,6 +9,7 @@ const redis = require("redis")
 const app = express()
 app.use(express.json())
 
+// Some test functions
 async function seedTestFunctions(redisClient) {
     let data = {
         "multiply": JSON.stringify({ method: "GET",
@@ -48,7 +49,11 @@ async function start() {
         
         // Testing a homepage
         app.get("/", (req, res) => {
-            res.send("Hello from Node!")
+            res.sendFile('views/index.html', {root: __dirname })
+        })
+
+        app.get("/playground", (req, res) => {
+            res.sendFile('views/playground.html', {root: __dirname })
         })
 
 
@@ -74,7 +79,7 @@ async function start() {
                         const result = await sandbox.runUserCode(data.code, queryData)
                         console.log("Sandbox result:", result)
 
-                        res.send(result)
+                        res.json({response: result})
                         res.status(200)
 
                     } else {
@@ -114,7 +119,7 @@ async function start() {
                         const result = await sandbox.runUserCode(data.code, bodyData)
                         console.log("Sandbox result:", result)
                         
-                        res.send(result)
+                        res.json({response: result})
                         res.status(200)
                     } else {
                         res.json({ error: "Function does not use the POST method" })

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Worker Bee</title>
+</head>
+<body>
+  <h1>Create Worker Bee Functions</h1>
+
+  <p>Set up a worker function with a name, HTTP method, and JS code!</p>
+  <p>Run your newly made functions at http://localhost/run/your_function_name!!</p>
+
+  <form id="codeForm">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name"></input>
+    <label for="method">Method:</label>
+    <select id="method" name="method">
+      <option value="GET">GET</option>
+      <option value="POST">POST</option>
+    </select>
+    <br><br>
+
+    <label for="code">Code:</label><br>
+    <textarea id="code" name="code" rows="6" cols="40" placeholder="return 'Hi from a Worker!'"></textarea>
+    <br><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="status"></p>
+
+  <p>Try running test functions</p>
+  <a href="/playground">at the Playground!</a>
+
+  <p>Or, try:</p>
+  <p>Multiply Two Numbers: GET localhost/run/multiply?x=3&y=4 </p>
+  <p>Greet a name: POST localhost/run/name, body: {name: "Thomas"} </p>
+  <p>Sleep for Milliseconds: GET localhost/run/sleep?time=500 </p>
+
+  <script>
+    document.getElementById("codeForm").addEventListener("submit", async function (e) {
+      e.preventDefault()
+
+      const method = document.getElementById("method").value
+      const code = document.getElementById("code").value
+      const funcName = document.getElementById("name").value
+
+      const payload = { method, code }
+      if (!funcName || !method || !code) {
+        document.getElementById("status").textContent = "Error: Please fill in all the fields."
+      } else {
+
+        try {
+          const res = await fetch("http://localhost/functions/"+funcName, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          })
+
+          const result = await res.json()
+          document.getElementById("status").textContent = `Success: Function saved successfully`
+        } catch (err) {
+          document.getElementById("status").textContent = "Error: " + err.message
+        }
+      }
+    })
+  </script>
+</body>
+</html>

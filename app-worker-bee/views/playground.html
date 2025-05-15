@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Playground</title>
+  
+</head>
+<body>
+  <h1>Worker Bee Playground</h1>
+
+  <label for="method">HTTP Method:</label>
+  <select id="method">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+    <option value="PUT">PUT</option>
+  </select>
+  <br>
+  <label for="url">Request URL (relative to localhost):</label>
+  <br>
+  <input type="text" id="url" value="" placeholder="/run/your-route-here" />
+
+  <br><br>
+  <label for="body">Request Body (JSON):</label>
+  <br><br>
+  <textarea id="body" rows="8" placeholder='{"key":"value"}'></textarea>
+
+  <button id="sendBtn">Send Request</button>
+
+  <h3>Response</h3>
+  <pre id="response">Waiting for request...</pre>
+
+  <p>Or, try:</p>
+  <p>Multiply Two Numbers: GET localhost/run/multiply?x=3&y=4 </p>
+  <p>Greet a name: POST localhost/run/name, body: {name: "Thomas"} </p>
+  <p>Sleep for Milliseconds: GET localhost/run/sleep?time=500 </p>
+  <p>Or your own custom functions!</p>
+
+  <script>
+    document.getElementById('sendBtn').addEventListener('click', async () => {
+      const method = document.getElementById('method').value;
+      const route = document.getElementById('url').value;
+      const bodyText = document.getElementById('body').value;
+
+      const options = {
+        method,
+        headers: { 'Content-Type': 'application/json' }
+      };
+
+      if (method !== 'GET' && bodyText.trim()) {
+        try {
+          options.body = JSON.stringify(JSON.parse(bodyText));
+        } catch (e) {
+            console.log(e)
+          document.getElementById('response').textContent = '❌ Invalid JSON in request body';
+          return;
+        }
+      }
+
+      try {
+        const res = await fetch(`http://localhost${route}`, options);
+        const data = await res.json();
+        document.getElementById('response').textContent =
+          `✅ Status: ${res.status}\n\n` + JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('response').textContent = '❌ ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
