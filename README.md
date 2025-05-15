@@ -63,9 +63,9 @@ docker-compose up
 
 **Request Body:**
 
-```json
+```js
 {
-  "method": "GET" \| "POST",
+  "method": "GET" | "POST",
   "code": "return parameters.your_input"
 }
 ```
