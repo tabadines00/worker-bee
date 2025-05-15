@@ -1,12 +1,12 @@
-'use strict'
+"use strict"
 
-const { parentPort, workerData } = require('worker_threads')
-const vm = require('node:vm')
+const { parentPort, workerData } = require("worker_threads")
+const vm = require("node:vm")
 
 
 // Safe allowed modules
 const allowedModules = {
-	'node:http': require('node:http'),
+	"node:http": require("node:http"),
 }
 
 function safeRequire(moduleName) {
@@ -24,6 +24,7 @@ const sandbox = {
 	setInterval,
 	clearTimeout,
 	clearInterval,
+	parameters: workerData.parameters || {}
 }
 
 // Create isolated context

@@ -1,19 +1,19 @@
-'use strict'
+"use strict"
 
-const { Worker } = require('node:worker_threads')
-const path = require('path')
+const { Worker } = require("node:worker_threads")
+const path = require("path")
 
-async function runUserCode(code) {
+async function runUserCode(code, parameters) {
     return new Promise((resolve, reject) => {
-        const worker = new Worker(path.resolve(__dirname, 'worker.js'), {
-            workerData: { code },
+        const worker = new Worker(path.resolve(__dirname, "worker.js"), {
+            workerData: { code, parameters },
             resourceLimits: {
                 maxOldGenerationSizeMb: 50,
             },
         })
 
         // Listen for a message (structured response)
-        worker.once('message', (message) => {
+        worker.once("message", (message) => {
             if (message.error) {
                 reject(new Error(message.error))
             } else {
@@ -21,11 +21,11 @@ async function runUserCode(code) {
             }
         })
 
-        worker.once('error', (err) => {
-            reject(new Error('Worker thread error: ' + err.message))
+        worker.once("error", (err) => {
+            reject(new Error("Worker thread error: " + err.message))
         })
 
-        worker.once('exit', (code) => {
+        worker.once("exit", (code) => {
             if (code !== 0) {
             reject(new Error(`Worker stopped with exit code ${code}`))
             }
@@ -34,7 +34,7 @@ async function runUserCode(code) {
         // Global timeout
         setTimeout(() => {
             worker.terminate()
-            reject(new Error('Worker execution timed out.'))
+            reject(new Error("Worker execution timed out."))
         }, 1500) // 1.5 second timeout
     })
 }
@@ -47,18 +47,18 @@ module.exports = {
 // (async () => {
 //     try {
 //         const result = await runUserCode(`
-//             const http = require('node:http')
+//             const http = require("node:http")
 
 //             async function fetchSomething() {
-//             return 'Hello from async sandbox!'
+//             return "Hello from async sandbox!"
 //             }
 
 //             fetchSomething()
 //         `)
 
-//         console.log('Sandbox result:', result)
+//         console.log("Sandbox result:", result)
 
 //     } catch (err) {
-//         console.error('Sandbox error:', err.message)
+//         console.error("Sandbox error:", err.message)
 //     }
 // })()
