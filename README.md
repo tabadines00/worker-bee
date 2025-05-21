@@ -63,7 +63,7 @@ docker-compose up
 
 **Request Body:**
 
-```json
+```js
 {
   "method": "GET" | "POST",
   "code": "return parameters.your_input"
@@ -84,7 +84,7 @@ Run a `GET`-based function with query parameters.
 
 Run a `POST`-based function with JSON body data.
 
-> ✅ The correct HTTP method must match the one defined in the function’s metadata.
+> The correct HTTP method must match the one defined in the function’s metadata.
 
 ---
 
