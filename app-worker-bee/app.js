@@ -57,6 +57,12 @@ async function start() {
             res.sendFile('views/playground.html', {root: __dirname })
         })
 
+        // If run route is empty
+        app.get("/run", (req, res) => {
+             res.status(404)
+             res.json({ error: "No Function found" })
+        })
+
 
         // Run a function with the GET method
         app.get("/run/:funcID", async (req, res) => {
@@ -80,24 +86,28 @@ async function start() {
                         const result = await sandbox.runUserCode(data.code, queryData)
                         console.log("Sandbox result:", result)
 
-                        res.json({response: result})
                         res.status(200)
+                        res.json({response: result})
+                        
 
                     } else {
-                        res.json({ error: "Function does not use the GET method" })
                         res.status(400)
+                        res.json({ error: "Function does not use the GET method" })
+                        
 
                     }
                 } catch (err) {
                     console.error("Sandbox error:", err.message)
-                    res.json({ error: "Sandbox Error: "+err.message })
                     res.status(500)
+                    res.json({ error: "Sandbox Error: "+err.message })
+                    
 
                 }
             } else {
                 // Function was not found in DB
-                res.json({ error: "No Function found" })
                 res.status(404)
+                res.json({ error: "No Function found" })
+                
             }
         })
 
@@ -120,22 +130,26 @@ async function start() {
                         const result = await sandbox.runUserCode(data.code, bodyData)
                         console.log("Sandbox result:", result)
                         
-                        res.json({response: result})
                         res.status(200)
+                        res.json({response: result})
+                        
                     } else {
-                        res.json({ error: "Function does not use the POST method" })
                         res.status(400)
+                        res.json({ error: "Function does not use the POST method" })
+                        
 
                     }
                 } catch (err) {
                     console.error("Sandbox error:", err.message)
-                    res.json({ error: "Sandbox Error: "+err.message })
                     res.status(500)
+                    res.json({ error: "Sandbox Error: "+err.message })
+                    
                 }
             } else {
                 // Function was not found in DB
-                res.json({error: "No Function found" })
                 res.status(404)
+                res.json({error: "No Function found" })
+                
             }
         })
 
@@ -145,14 +159,16 @@ async function start() {
             const data = req.body;
       
             if (!funcID || !data.code || !data.method || typeof data !== "object") {
-                res.json({ error: "Invalid request body or ID" })
                 res.status(400)
+                res.json({ error: "Invalid request body or ID" })
+                
                 return
             }
       
             await redisClient.set(funcID, JSON.stringify(data))
-            res.json({ message: "Function saved successfully", funcID })
             res.status(200)
+            res.json({ message: "Function saved successfully", funcID })
+            
         })
 
         // Get the current state of a function
@@ -161,13 +177,15 @@ async function start() {
             const raw = await redisClient.get(funcID);
 
             if (!raw) {
-                res.json({ error: "Function not found" })
                 res.status(404)
+                res.json({ error: "Function not found" })
+                
                 return
             }
 
-            res.json(JSON.parse(raw))
             res.status(200)
+            res.json(JSON.parse(raw))
+            
         })
 
 

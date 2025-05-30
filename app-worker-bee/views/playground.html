@@ -12,12 +12,12 @@
   <select id="method">
     <option value="GET">GET</option>
     <option value="POST">POST</option>
-    <option value="PUT">PUT</option>
+    <!-- <option value="PUT">PUT</option> -->
   </select>
   <br>
   <label for="url">Request URL (relative to localhost):</label>
   <br>
-  <input type="text" id="url" value="" placeholder="/run/your-route-here" />
+  <input type="text" id="url" value="" placeholder="/your-route-here" />
 
   <br><br>
   <label for="body">Request Body (JSON):</label>
@@ -57,12 +57,21 @@
       }
 
       try {
-        const res = await fetch(`http://localhost${route}`, options);
+        const res = await fetch(`http://localhost/run${route}`, options)
         const data = await res.json();
-        document.getElementById('response').textContent =
-          `✅ Status: ${res.status}\n\n` + JSON.stringify(data, null, 2);
+
+        statusMessage = ` Status: ${res.status}\n\n` + JSON.stringify(data, null, 2)
+
+        if (res.status == 200) {
+          statusMessage = "✅" + statusMessage
+        } else {
+          statusMessage = "❌" + statusMessage
+        }
+
+        document.getElementById('response').textContent = statusMessage
+          
       } catch (err) {
-        document.getElementById('response').textContent = '❌ ' + err.message;
+        document.getElementById('response').textContent = '❌ ' + err.message
       }
     });
   </script>
