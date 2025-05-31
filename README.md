@@ -31,13 +31,9 @@ Before launching, make the Docker network:
 
 ### 3. Start the Services
 
-Use Docker Compose to spin up the app and optional nginx server:
+Use Docker Compose to spin up the app and nginx server:
 
 ```bash
-cd app-worker-bee
-docker-compose up --build
-cd ..
-cd nginx
 docker-compose up
 ```
 
