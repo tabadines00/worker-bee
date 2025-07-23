@@ -3,7 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Playground</title>
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Inconsolata", monospace;
+      font-optical-sizing: auto;
+      padding: 3em;
+    }
+    h1 {
+      border-bottom: 6px solid rgb(239, 170, 4);
+    }
+    button {
+      background-color: rgb(239, 170, 4);
+      border: none;
+      color: white;
+      padding: 8px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+  </style>
 </head>
 <body>
   <h1>Worker Bee Playground</h1>
@@ -14,8 +39,8 @@
     <option value="POST">POST</option>
     <!-- <option value="PUT">PUT</option> -->
   </select>
-  <br>
-  <label for="url">Request URL (relative to localhost):</label>
+  <br><br>
+  <label for="url">Request URL (relative to localhost/run/):</label>
   <br>
   <input type="text" id="url" value="" placeholder="/your-route-here" />
 
@@ -23,12 +48,13 @@
   <label for="body">Request Body (JSON):</label>
   <br><br>
   <textarea id="body" rows="8" placeholder='{"key":"value"}'></textarea>
-
+  <br>
   <button id="sendBtn">Send Request</button>
 
   <h3>Response</h3>
   <pre id="response">Waiting for request...</pre>
 
+  <br><br>
   <p>Or, try:</p>
   <p>Multiply Two Numbers: GET localhost/run/multiply?x=3&y=4 </p>
   <p>Greet a name: POST localhost/run/greet, body: {name: "Thomas"} </p>
